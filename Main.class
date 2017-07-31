@@ -1,0 +1,57 @@
+package uk.co.hypergaming.mc.release;
+
+import java.util.concurrent.Callable;
+import java.util.logging.Logger;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.FileConfigurationOptions;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class Main
+  extends JavaPlugin
+{
+  public void onEnable()
+  {
+    getLogger().info("HyperDiscord enabled V1.1");
+    getLogger().info("Thank you for using HyperDiscord!");
+    getConfig().options().copyDefaults(true);
+    saveConfig();
+    reloadConfig();
+  }
+  
+  public class ExamplePlugin
+    extends JavaPlugin
+  {
+    public ExamplePlugin() {}
+    
+    public void onEnable()
+    {
+      bStats metrics = new bStats(this);
+      
+      metrics.addCustomChart(new bStats.SimplePie("chart_id", new Callable()
+      {
+        public String call()
+          throws Exception
+        {
+          return "My value";
+        }
+      }));
+    }
+  }
+  
+  public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
+  {
+    if (cmd.getName().equalsIgnoreCase("discord"))
+    {
+      if (!sender.hasPermission("hg.discord"))
+      {
+        sender.sendMessage(ChatColor.RED + "Permission denied haha silly");
+        return true;
+      }
+      sender.sendMessage(ChatColor.RED + "Discord: " + ChatColor.GRAY + getConfig().getString("Discord"));
+    }
+    return false;
+  }
+}
