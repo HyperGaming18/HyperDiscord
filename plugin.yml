@@ -1,0 +1,7 @@
+name: HyperDiscord
+main: uk.co.hypergaming.mc.release.Main
+version: 1.1
+commands:
+  Discord:
+   description: Get the discord server link!
+   aliases: [discord, dc]
